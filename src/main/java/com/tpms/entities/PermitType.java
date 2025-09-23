@@ -66,7 +66,7 @@ public class PermitType {
 
 	@Override
 	public String toString() {
-		return "PermitType [id=" + id + ", name=" + name + ", council=" + council + ", applications=" + applications
+		return "PermitTypeController [id=" + id + ", name=" + name + ", council=" + council + ", applications=" + applications
 				+ "]";
 	}
 

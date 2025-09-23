@@ -30,7 +30,7 @@ public class ApplicationDocumentService {
 	}
 	
 	//Fetch Details by Id
-	public ApplicationDocument getApplicationById(long id) {
+	public ApplicationDocument getApplicationDocumentById(long id) {
 		return this.applicationDocumentRepository.findById(id).orElseThrow(()->
 			new ResourceNotFoundException("There are no ApplicationDocument with the ID: "+id));
 	}
@@ -43,7 +43,7 @@ public class ApplicationDocumentService {
 	}
 	
 	//Delete by ID
-	public void deleteById(long id) {
+	public void deleteApplicationDocumentById(long id) {
 		if(!this.applicationDocumentRepository.existsById(id)) {
 			throw new ResourceNotFoundException("No Record found!!");
 		}

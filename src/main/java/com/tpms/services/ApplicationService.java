@@ -41,7 +41,7 @@ public class ApplicationService {
 	}
 	
 	//Delete Application by ID
-	public void deleteById(long id) {
+	public void deleteApplicationById(long id) {
 		if(!this.applicationRepository.existsById(id)) {
 			throw new ResourceNotFoundException("There is no application with the ID: "+ id);
 		}

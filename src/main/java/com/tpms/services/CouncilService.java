@@ -12,6 +12,7 @@ public class CouncilService {
 
     private final CouncilRepository councilRepository;
 
+
     public CouncilService(CouncilRepository councilRepository) {
         this.councilRepository = councilRepository;
     }
@@ -52,3 +53,4 @@ public class CouncilService {
         this.councilRepository.deleteById(id);
     }
 }
+	
