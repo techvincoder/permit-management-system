@@ -3,7 +3,6 @@ package com.tpms.entities;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,10 +43,12 @@ public class StaffAccounts {
 	private Boolean isActive;
 	
 	@OneToMany(mappedBy = "assignedStaff", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Application>application = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "council_id")
+	//@JsonBackReference
 	private Council council;
 	
 	@ManyToMany
@@ -56,6 +57,7 @@ public class StaffAccounts {
 			joinColumns = @JoinColumn(name = "staff_account_id"),
 			inverseJoinColumns = @JoinColumn(name="role_id")
 			)
+	//@JsonIgnore
 	private Set<Role> role = new HashSet<>();
 	
 	

@@ -3,6 +3,8 @@ package com.tpms.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,9 +29,11 @@ public class PermitType {
 	
 	@ManyToOne
 	@JoinColumn(name = "council_id")
+	//@JsonBackReference
 	private Council council;
 
 	@OneToMany(mappedBy = "permitType", cascade = CascadeType.ALL,orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Application> applications = new HashSet<>();
 
 	public Long getId() {

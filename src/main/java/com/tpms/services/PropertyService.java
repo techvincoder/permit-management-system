@@ -1,10 +1,12 @@
 package com.tpms.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.tpms.dao.PropertyRepository;
+import com.tpms.dto.PropertyDto;
 import com.tpms.entities.Property;
 import com.tpms.exceptions.ResourceNotFoundException;
 
@@ -18,31 +20,39 @@ public class PropertyService {
 	}
 	
 	//Add Property
-	public Property addProperty(Property property) {
-		return this.propertyRepository.save(property);
+	public PropertyDto addProperty(Property property) {
+		Property newProperty =  this.propertyRepository.save(property);
+		return convertToDto(newProperty);
 	}
 	
 	//Fetch All
-	public List<Property> getAllProperty(){
+	public List<PropertyDto> getAllPropertyDtos(){
 		List<Property>list = (List<Property>)this.propertyRepository.findAll();
-		return list;
+		List<PropertyDto> listPropertyDto = new ArrayList<>();
+		
+		for(Property property: list) {
+			listPropertyDto.add(convertToDto(property));
+		}
+		return listPropertyDto;
 	}
 	
 	//Fetch by Id
-	public Property getPropertyById(long id) {
-		return this.propertyRepository.findById(id)
+	public PropertyDto getPropertyDtoById(long id) {
+		Property property=  this.propertyRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("There is no Property with ID: "+id));
+		return convertToDto(property);
 	}
 	
 	//update By ID
-	public Property updatePropertyById(long id) {
+	public PropertyDto updatePropertyById(long id) {
 		Property prop = this.propertyRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("There is No such Property with ID: " +id));
 		
 		//Getters Setters
 		prop.setCity(prop.getCity());
 		//more getters and setters
-		return this.propertyRepository.save(prop);
+		Property updatedProperty = this.propertyRepository.save(prop);
+		return convertToDto(updatedProperty);
 	}
 	
 	//delete by id
@@ -52,5 +62,18 @@ public class PropertyService {
 		}
 		
 		this.propertyRepository.deleteById(id);
+	}
+	
+	public PropertyDto convertToDto(Property property) {
+		PropertyDto propertyDto = new PropertyDto();
+		
+		propertyDto.setId(property.getId());
+		propertyDto.setCity(property.getCity());
+		propertyDto.setFullAddress(property.getFullAddress());
+		propertyDto.setParcelNumber(property.getParcelNumber());
+		propertyDto.setPostalCode(property.getPostalCode());
+		propertyDto.setState(property.getState());
+		
+		return propertyDto;
 	}
 }

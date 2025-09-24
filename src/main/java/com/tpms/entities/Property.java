@@ -41,9 +41,11 @@ public class Property {
 	
 	@ManyToOne
 	@JoinColumn(name="council_id")
+	//@JsonBackReference
 	private Council council;
 	
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Application> application = new HashSet<>();
 
 	public long getId() {

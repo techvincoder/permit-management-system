@@ -1,5 +1,6 @@
 package com.tpms.controllers.api;
 
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.tpms.dto.PropertyDto;
 import com.tpms.entities.Property;
 import com.tpms.services.PropertyService;
 
@@ -28,27 +31,27 @@ private final PropertyService propertyService;
 	
 	//Get all Details
 	@GetMapping("/")
-	public ResponseEntity<List<Property>> getAllProperties(){
-		List<Property> properties = this.propertyService.getAllProperty();
+	public ResponseEntity<List<PropertyDto>> getAllProperties(){
+		List<PropertyDto> properties = (List<PropertyDto>)this.propertyService.getAllPropertyDtos();
 		return ResponseEntity.ok(properties);
 	}
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Property> getProperty(@PathVariable Long id){
-		Property property = this.propertyService.getPropertyById(id);
-		return ResponseEntity.ok(property);
+	public ResponseEntity<PropertyDto> getProperty(@PathVariable Long id){
+		PropertyDto propertyDto = this.propertyService.getPropertyDtoById(id);
+		return ResponseEntity.ok(propertyDto);
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Property> createProperty(@RequestBody Property property){
-		Property newProperty = this.propertyService.addProperty(property);
+	public ResponseEntity<PropertyDto> createProperty(@RequestBody Property property){
+		PropertyDto newProperty = this.propertyService.addProperty(property);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newProperty);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Property> updateProperty(@PathVariable Long id , @RequestBody Property property){
-		Property newProperty = this.propertyService.getPropertyById(id);
+	public ResponseEntity<PropertyDto> updateProperty(@PathVariable Long id , @RequestBody Property property){
+		PropertyDto newProperty = this.propertyService.updatePropertyById(id);
 		return ResponseEntity.ok(newProperty);
 	}
 	

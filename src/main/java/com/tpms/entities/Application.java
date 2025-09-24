@@ -43,28 +43,35 @@ public class Application {
 	
 	@ManyToOne
 	@JoinColumn(name="council_id")
+	//@JsonBackReference
 	private Council council;
 	
 	@ManyToOne
 	@JoinColumn(name="property_id")
+	//@JsonBackReference
 	private Property property;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
+	//@JsonBackReference
 	private Customer customer;
 	
 	@ManyToOne
 	@JoinColumn(name="permit_type_id")
+	//@JsonBackReference
 	private PermitType permitType;
 	
 	@ManyToOne
 	@JoinColumn(name="assigned_staff_account_id")
+	//@JsonBackReference
 	private StaffAccounts assignedStaff;
 	
 	@OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<ApplicationDocument> applicationDocuments = new HashSet<>();
 	
 	@OneToMany(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<ApplicationHistory> applicationHistory = new HashSet<>();
 	
 	@Column(name="created_at")

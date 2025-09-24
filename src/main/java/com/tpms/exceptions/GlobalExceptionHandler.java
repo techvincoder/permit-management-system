@@ -26,4 +26,6 @@ public class GlobalExceptionHandler {
         logger.error("An unexpected error occurred: ", ex);
         return new ResponseEntity<>("An internal server error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    
 }

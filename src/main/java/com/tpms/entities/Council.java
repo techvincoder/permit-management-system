@@ -3,6 +3,7 @@ package com.tpms.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,18 +33,27 @@ public class Council {
 	
 	private String contactEmail;
 	
-	private Boolean is_Active;
+	@Column(name="is_Active")
+	private Boolean active;
 	
+	//@JsonIgnore // there are many properties we do not need all of them
 	@OneToMany(mappedBy = "council", cascade = CascadeType.ALL , orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Property> property = new HashSet<>();
 	
+	//@JsonIgnore //There are many staffs... we don't need everyone's data
 	@OneToMany(mappedBy = "council", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<StaffAccounts> staff_account = new HashSet<>();
 	
+	//@JsonIgnore //there are many applications we do not need those data yet
 	@OneToMany(mappedBy = "council", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Application> application = new HashSet<>();
 	
+	//@JsonIgnore // there are many permit types we do not need those yet
 	@OneToMany(mappedBy = "council", cascade = CascadeType.ALL, orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<PermitType> permit_type = new HashSet<>();
 
 	public Council() {
@@ -61,7 +71,7 @@ public class Council {
 		this.website = website;
 		this.contactPhone = contactPhone;
 		this.contactEmail = contactEmail;
-		this.is_Active = is_Active;
+		this.active = is_Active;
 		this.property = property;
 		this.staff_account = staff_account;
 		this.application = application;
@@ -71,7 +81,7 @@ public class Council {
 	@Override
 	public String toString() {
 		return "Council [id=" + id + ", name=" + name + ", address=" + address + ", website=" + website
-				+ ", contactPhone=" + contactPhone + ", contactEmail=" + contactEmail + ", is_Active=" + is_Active
+				+ ", contactPhone=" + contactPhone + ", contactEmail=" + contactEmail + ", is_Active=" + active
 				+ ", property=" + property + ", staff_account=" + staff_account + ", application=" + application
 				+ ", permit_type=" + permit_type + "]";
 	}
@@ -124,12 +134,12 @@ public class Council {
 		this.contactEmail = contactEmail;
 	}
 
-	public Boolean getIs_Active() {
-		return is_Active;
+	public Boolean getActive() {
+		return active;
 	}
 
-	public void setIs_Active(Boolean is_Active) {
-		this.is_Active = is_Active;
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	public Set<Property> getProperty() {

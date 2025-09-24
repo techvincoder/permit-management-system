@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tpms.dto.CustomerDto;
 import com.tpms.entities.Customer;
 import com.tpms.services.CustomerService;
 
@@ -28,27 +29,27 @@ public class CustomerController {
 	
 	//Get all Details
 	@GetMapping("/")
-	public ResponseEntity<List<Customer>> getAllCusomers(){
-		List<Customer> customers = this.customerService.getAllCustomer();
+	public ResponseEntity<List<CustomerDto>> getAllCusomers(){
+		List<CustomerDto> customers = this.customerService.getAllCustomerDto();
 		return ResponseEntity.ok(customers);
 	}
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
-		Customer customer = this.customerService.getCustomerById(id);
-		return ResponseEntity.ok(customer);
+	public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id){
+		CustomerDto customerDto = this.customerService.getCustomerDtoById(id);
+		return ResponseEntity.ok(customerDto);
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
-		Customer newCustomer = this.customerService.addCustomer(customer);
+	public ResponseEntity<CustomerDto> createCustomer(@RequestBody Customer customer){
+		CustomerDto newCustomer = this.customerService.addCustomer(customer);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newCustomer);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Customer> updateCustomer(@PathVariable Long id , @RequestBody Customer customer){
-		Customer newCustomer = this.customerService.getCustomerById(id);
+	public ResponseEntity<CustomerDto> updateCustomer(@PathVariable Long id , @RequestBody Customer customer){
+		CustomerDto newCustomer = this.customerService.updateCustomerById(id, customer);
 		return ResponseEntity.ok(newCustomer);
 	}
 	

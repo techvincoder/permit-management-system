@@ -4,7 +4,6 @@
 package com.tpms.controllers.api;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.tpms.dto.ApplicationDto;
 import com.tpms.entities.Application;
 import com.tpms.services.ApplicationService;
 
@@ -30,26 +29,26 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/")
-	public ResponseEntity<List<Application>> getAllApplications(){
-		List<Application> list = this.applicationService.getAllApplication();
+	public ResponseEntity<List<ApplicationDto>> getAllApplicationDto(){
+		List<ApplicationDto> list = this.applicationService.getAllApplicationDtos();
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Application> getApplicationById(@PathVariable Long id){
-		Application application = this.applicationService.getApplicationById(id);
+	public ResponseEntity<ApplicationDto> getApplicationById(@PathVariable Long id){
+		ApplicationDto application = this.applicationService.getApplicationDtoById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(application);
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Application> createApplication(@RequestBody Application application){
-		Application newApplication = this.applicationService.addApplication(application);
+	public ResponseEntity<ApplicationDto> createApplication(@RequestBody Application application){
+		ApplicationDto newApplication = this.applicationService.addApplication(application);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newApplication);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Application> updateApplication(@PathVariable Long id,@RequestBody Application application){
-		Application newApplication = this.applicationService.updateApplicationById(id, application);
+	public ResponseEntity<ApplicationDto> updateApplication(@PathVariable Long id,@RequestBody Application application){
+		ApplicationDto newApplication = this.applicationService.updateApplicationById(id, application);
 		return ResponseEntity.status(HttpStatus.OK).body(newApplication);
 	}
 	
@@ -58,6 +57,5 @@ public class ApplicationController {
 		this.applicationService.deleteApplicationById(id);
 		return ResponseEntity.noContent().build();
 	}
-	
 	
 }

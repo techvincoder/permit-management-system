@@ -47,7 +47,7 @@ private final PermitTypeService permitTypeService;
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<PermitType> updatePermitType(@PathVariable Long id , @RequestBody PermitType permitType){
-		PermitType newPermitType = this.permitTypeService.getPermitTypeById(id);
+		PermitType newPermitType = this.permitTypeService.updatePermitTypeById(id, permitType);
 		return ResponseEntity.ok(newPermitType);
 	}
 	

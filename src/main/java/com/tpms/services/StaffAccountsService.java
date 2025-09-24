@@ -1,10 +1,14 @@
 package com.tpms.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import com.tpms.dao.StaffAccountsRepository;
+import com.tpms.dto.StaffAccountsDto;
 import com.tpms.entities.StaffAccounts;
+import com.tpms.exceptions.ResourceAlreadyExistsException;
 import com.tpms.exceptions.ResourceNotFoundException;
 
 @Service
@@ -17,24 +21,36 @@ public class StaffAccountsService {
 	}
 	
 	//Add StaffAccount
-	public StaffAccounts addStaffAccount(StaffAccounts staffAccount) {
-		return this.staffAccountsRepository.save(staffAccount);
+	public StaffAccountsDto addStaffAccount(StaffAccounts staffAccount) {
+		Optional<StaffAccounts> existingAccount = staffAccountsRepository.findByEmail(staffAccount.getEmail());
+		if (existingAccount.isPresent()) {
+		    throw new ResourceAlreadyExistsException("Staff account with email '" + staffAccount.getEmail() + "' already exists.");
+		}
+		StaffAccounts newStaffAccount =  this.staffAccountsRepository.save(staffAccount);
+		return convertToDto(newStaffAccount);
 	}
 	
 	//Fetch all
-	public List<StaffAccounts> getAllStaffAccounts(){
+	public List<StaffAccountsDto> getAllStaffAccountsDtos(){
 		List<StaffAccounts> list = this.staffAccountsRepository.findAll();
-		return list;
+		List<StaffAccountsDto> lists = new ArrayList<>();
+		for(StaffAccounts staffAccount : list) {
+			lists.add(convertToDto(staffAccount));
+		}
+		
+		return lists;
 	}
 	
 	//Fetch By ID
-	public StaffAccounts getStaffAccountById(long id) {
-		return this.staffAccountsRepository.findById(id)
+	public StaffAccountsDto getStaffAccountDtoById(long id) {
+		StaffAccounts staffAccounts = this.staffAccountsRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("There is no Staff Account with ID: "+id));
+		
+		return convertToDto(staffAccounts);
 	}
 	
 	//Update by ID
-	public StaffAccounts updateStaffAccountById(long id, StaffAccounts staffAccounts) {
+	public StaffAccountsDto updateStaffAccountById(long id, StaffAccounts staffAccounts) {
 		StaffAccounts account = this.staffAccountsRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("There is no User with this details: "+id));
 		
@@ -42,7 +58,8 @@ public class StaffAccountsService {
 		account.setEmail(staffAccounts.getEmail());
 		//add more getters and setters
 		
-		return this.staffAccountsRepository.save(account);
+		StaffAccounts updatedStaffAccount = this.staffAccountsRepository.save(account);
+		return convertToDto(updatedStaffAccount);
 	}
 	
 	//Delete by ID
@@ -50,5 +67,17 @@ public class StaffAccountsService {
 		if(! this.staffAccountsRepository.existsById(id)) {
 			throw new ResourceNotFoundException("There is no Staff Account with ID: "+id);
 		}
+		this.staffAccountsRepository.deleteById(id);
+	}
+	
+	public StaffAccountsDto convertToDto(StaffAccounts staffAccounts) {
+		StaffAccountsDto staffAccount = new StaffAccountsDto();
+		staffAccount.setId(staffAccounts.getId());
+		staffAccount.setFirstName(staffAccounts.getFirstName());
+		staffAccount.setLastName(staffAccounts.getLastName());
+		staffAccount.setEmail(staffAccounts.getEmail());
+		staffAccount.setJobTitle(staffAccounts.getJobTitle());
+		staffAccount.setRoles(staffAccounts.getRole());
+		return staffAccount;
 	}
 }

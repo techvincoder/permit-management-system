@@ -2,6 +2,8 @@ package com.tpms.entities;
 
 import java.time.LocalDateTime;
 
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class ApplicationDocument {
 	
 	@ManyToOne
 	@JoinColumn(name="application_id")
+	//@JsonBackReference
 	private Application application;
 
 	public Long getId() {
@@ -104,7 +107,6 @@ public class ApplicationDocument {
 
 	public ApplicationDocument() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	

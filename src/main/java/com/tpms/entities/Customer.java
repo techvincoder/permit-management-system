@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,6 +45,7 @@ public class Customer {
 	private LocalDateTime updatedAt;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL,orphanRemoval = true)
+	//@JsonManagedReference
 	private Set<Application> applications = new HashSet<>();
 	
 	@Column(name="is_active")
