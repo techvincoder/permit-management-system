@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.tpms.dao.RoleRepository;
 import com.tpms.dao.StaffAccountsRepository;
 import com.tpms.dto.StaffAccountsDto;
+import com.tpms.entities.Role;
 import com.tpms.entities.StaffAccounts;
 import com.tpms.exceptions.ResourceAlreadyExistsException;
 import com.tpms.exceptions.ResourceNotFoundException;
@@ -15,9 +18,12 @@ import com.tpms.exceptions.ResourceNotFoundException;
 public class StaffAccountsService {
 
 	private final StaffAccountsRepository staffAccountsRepository;
+	private final RoleRepository roleRepository;
 	
-	public StaffAccountsService(StaffAccountsRepository staffAccountsRepository) {
+	
+	public StaffAccountsService(StaffAccountsRepository staffAccountsRepository, RoleRepository roleRepository) {
 		this.staffAccountsRepository = staffAccountsRepository;
+		this.roleRepository = roleRepository;
 	}
 	
 	//Add StaffAccount
@@ -79,5 +85,26 @@ public class StaffAccountsService {
 		staffAccount.setJobTitle(staffAccounts.getJobTitle());
 		staffAccount.setRoles(staffAccounts.getRole());
 		return staffAccount;
+	}
+	
+	// Add this method inside your StaffAccountService.java
+
+	public StaffAccountsDto assignRoleToStaff(Long staffId, Long roleId) {
+	    // Find the staff account or throw an exception
+	    StaffAccounts staffAccount = staffAccountsRepository.findById(staffId)
+	            .orElseThrow(() -> new ResourceNotFoundException("StaffAccount not found with ID: " + staffId));
+
+	    // Find the role or throw an exception
+	    Role role = roleRepository.findById(roleId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Role not found with ID: " + roleId));
+
+	    // Add the role to the staff member's set of roles
+	    staffAccount.getRole().add(role);
+
+	    // Save the updated staff member
+	    StaffAccounts updatedStaffAccount = staffAccountsRepository.save(staffAccount);
+
+	    // Return the DTO
+	    return convertToDto(updatedStaffAccount);
 	}
 }

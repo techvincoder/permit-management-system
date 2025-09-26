@@ -58,6 +58,12 @@ public class StaffAccountController {
 		this.staffAccountsService.deleteStaffAccountById(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@PostMapping("/{staffId}/roles/{roleId}")
+	public ResponseEntity<StaffAccountsDto> assignRole(@PathVariable Long staffId, @PathVariable Long roleId) {
+	    StaffAccountsDto updatedStaffAccount = staffAccountsService.assignRoleToStaff(staffId, roleId);
+	    return ResponseEntity.ok(updatedStaffAccount);
+	}
 	
 	
 }

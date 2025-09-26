@@ -53,17 +53,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // RULE 1: Allow everyone to access the login endpoint
+                        // --- IMPORTANT: Rules are checked in order. Most specific rules go first. ---
+
+                        // RULE 1: Allow public access to the login endpoint.
                         .requestMatchers("/api/auth/login").permitAll()
-                        // RULE 2: Only admins can create councils
-                        .requestMatchers(HttpMethod.POST, "/api/councils/").hasRole("ADMIN")
-                        // RULE 3: All other requests must be authenticated
+
+                        // RULE 2 (TEMPORARY FOR SETUP): Allow creating initial data without logging in.
+                        .requestMatchers(HttpMethod.POST, "/api/councils/", "/api/roles/", "/api/staff-accounts/").permitAll()
+
+                        // RULE 3: Secure the role assignment endpoint for ADMINS only.
+                        .requestMatchers(HttpMethod.POST, "/api/staff-accounts/**/roles/**").hasRole("ADMIN")
+                        
+                        // RULE 4 (THE CATCH-ALL): Any other request must be authenticated. This MUST be the last rule.
                         .anyRequest().authenticated()
                 )
-                // Add our custom JWT filter before the standard authentication filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 }
-
