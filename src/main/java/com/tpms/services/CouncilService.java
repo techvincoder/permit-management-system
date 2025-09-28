@@ -72,6 +72,12 @@ public class CouncilService {
         this.councilRepository.deleteById(id);
     }
     
+    //For updating the Council with Edit
+    public Council findCouncilEntityById(Long id) {
+        return councilRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Council not found with ID: " + id));
+    }
+    
     
     private CouncilDto convertToDto(Council council) {
     	CouncilDto dto = new CouncilDto();

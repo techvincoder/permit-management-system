@@ -13,8 +13,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
+@Data
+@ToString(exclude = {"council", "application"})
 @Table(name="property")
 public class Property {
 

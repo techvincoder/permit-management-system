@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base.html}">
+<head>
+    <title>Manage Councils</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">Manage Councils</h1>
+            <a th:href="@{/staff/councils/new}" class="btn btn-primary">Add New Council</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Contact Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="council : ${councils}">
+                                <td th:text="${council.id}">1</td>
+                                <td th:text="${council.name}">Thane Municipal Corporation</td>
+                                <td th:text="${council.address}">Thane, Maharashtra</td>
+                                <td th:text="${council.contactEmail}">contact@tmc.gov.in</td>
+                                <td>
+                                    <span class="badge"
+                                          th:classappend="${council.active} ? 'bg-success' : 'bg-secondary'"
+                                          th:text="${council.active} ? 'Active' : 'Inactive'">Active</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/staff/councils/{id}/edit(id=${council.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                                    <a th:href="@{/staff/councils/{id}/delete(id=${council.id})}" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(councils)}">
+                                <td colspan="6" class="text-center">No councils found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

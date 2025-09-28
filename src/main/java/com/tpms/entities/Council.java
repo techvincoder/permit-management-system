@@ -12,9 +12,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "council")
+@Data
+@ToString(exclude = {"property", "staff_account", "application", "permit_type"})
 public class Council {
 
 	

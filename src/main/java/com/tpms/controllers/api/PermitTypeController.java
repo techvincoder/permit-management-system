@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.tpms.dto.PermitTypeDto;
 import com.tpms.entities.PermitType;
 import com.tpms.services.PermitTypeService;
 
@@ -27,15 +29,15 @@ private final PermitTypeService permitTypeService;
 	
 	//Get all Details
 	@GetMapping("/")
-	public ResponseEntity<List<PermitType>> getAllPermitType(){
-		List<PermitType> list = this.permitTypeService.getAllPermitType();
+	public ResponseEntity<List<PermitTypeDto>> getAllPermitTypeDto(){
+		List<PermitTypeDto> list = this.permitTypeService.getAllPermitTypeDto();
 		return ResponseEntity.ok(list);
 	}
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<PermitType> getPermitType(@PathVariable Long id){
-		PermitType permitType = this.permitTypeService.getPermitTypeById(id);
+	public ResponseEntity<PermitTypeDto> getPermitType(@PathVariable Long id){
+		PermitTypeDto permitType = this.permitTypeService.getPermitTypeDtoById(id);
 		return ResponseEntity.ok(permitType);
 	}
 	

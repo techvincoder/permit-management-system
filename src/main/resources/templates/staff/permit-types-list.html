@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base.html}">
+<head>
+    <title>Manage Permit Types</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">Manage Permit Types</h1>
+            <a th:href="@{/staff/permit-types/new}" class="btn btn-primary">Add New Permit Type</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Associated Council</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pt : ${permitTypes}">
+                                <td th:text="${pt.id}">1</td>
+                                <td th:text="${pt.name}">Residential Construction</td>
+                                <td th:text="${pt.council.name}">Thane Municipal Corporation</td>
+                                <td>
+                                    <a th:href="@{/staff/permit-types/{id}/edit(id=${pt.id})}" class="btn btn-sm btn-secondary">Edit</a>
+                                    <a th:href="@{/staff/permit-types/{id}/delete(id=${pt.id})}" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(permitTypes)}">
+                                <td colspan="4" class="text-center">No permit types found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

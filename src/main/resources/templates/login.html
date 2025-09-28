@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{public-base.html}">
+<head>
+    <title>Staff Login</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="col-md-12"> <!-- Changed width to be more flexible -->
+        <div class="card shadow-sm" style="width: 25rem;">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4">Staff Portal Login</h2>
+
+                <!-- This block will only appear if the login fails -->
+                <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                    Invalid email or password.
+                </div>
+                <!-- This block will only appear after a successful logout -->
+                <div th:if="${param.logout}" class="alert alert-success" role="alert">
+                    You have been logged out successfully.
+                </div>
+
+                <!-- This form sends the user's credentials to Spring Security -->
+                <form th:action="@{/login}" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="username" name="username" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

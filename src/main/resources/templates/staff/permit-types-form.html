@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base.html}">
+<head>
+    <title>Manage Permit Type</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <h1 class="h3 mb-4">Manage Permit Type</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/staff/permit-types/save}" th:object="${permitType}" method="post">
+
+                    <!-- Hidden input for the ID, used for editing -->
+                    <input type="hidden" th:field="*{id}" />
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Permit Type Name</label>
+                        <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="council" class="form-label">Associated Council</label>
+                        <!-- 
+                          This dropdown will be populated with all available councils.
+                          th:field="*{council}" tells Thymeleaf to bind the selected council ID
+                          to the 'council' field of our permitType object.
+                        -->
+                        <select class="form-select" th:field="*{council.id}" id="council" required>
+                            <option value="">-- Select a Council --</option>
+                            <!-- This loop creates an <option> for each council in our list -->
+                            <option th:each="council : ${allCouncils}"
+                                    th:value="${council.id}"
+                                    th:text="${council.name}">
+                                Council Name
+                            </option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Permit Type</button>
+                    <a th:href="@{/staff/permit-types}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
