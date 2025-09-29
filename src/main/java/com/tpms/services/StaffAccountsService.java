@@ -107,4 +107,13 @@ public class StaffAccountsService {
 	    // Return the DTO
 	    return convertToDto(updatedStaffAccount);
 	}
+
+	public StaffAccounts findStaffAccountEntityById(Long id) {
+	    return staffAccountsRepository.findById(id)
+	            .orElseThrow(() -> new ResourceNotFoundException("Staff Account not found with ID: " + id));
+	}
+	
+	
+	
+	
 }

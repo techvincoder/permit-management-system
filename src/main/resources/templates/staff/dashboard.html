@@ -9,7 +9,11 @@
 
 <div layout:fragment="content">
     <div class="container-fluid">
-        <h1 class="h3 mb-4">Permit Applications Dashboard</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+             <h1 class="h3">Permit Applications Dashboard</h1>
+             <!-- THIS IS THE NEW BUTTON -->
+             <a th:href="@{/staff/applications/new}" class="btn btn-primary">Add New Application</a>
+        </div>
 
         <div class="card shadow-sm">
             <div class="card-header">
@@ -43,8 +47,9 @@
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-sm btn-primary">View</a>
-                                    <a href="#" class="btn btn-sm btn-secondary">Edit</a>
-                                </td>
+									<a th:href="@{/staff/applications/{id}/edit(id=${app.id})}" class="btn btn-sm btn-secondary">Edit</a>                                
+									<a th:href="@{/staff/applications/{id}/delete(id=${app.id})}" class="btn btn-sm btn-danger">Delete</a>
+								</td>
                             </tr>
                             <!-- This row will show only if the list of applications is empty -->
                             <tr th:if="${#lists.isEmpty(applications)}">

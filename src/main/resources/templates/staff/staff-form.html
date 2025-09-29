@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base.html}">
+<head>
+    <title th:text="${staffAccount.id == null} ? 'Add New Staff' : 'Edit Staff'">Manage Staff Account</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <h1 class="h3 mb-4" th:text="${staffAccount.id == null} ? 'Add New Staff' : 'Edit Staff'">Manage Staff Account</h1>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form th:action="@{/staff/staff-accounts/save}" th:object="${staffAccount}" method="post">
+
+                    <input type="hidden" th:field="*{id}" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" th:field="*{firstName}" id="firstName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" th:field="*{lastName}" id="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" id="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" th:field="*{password}" id="password" 
+                               th:placeholder="${staffAccount.id == null} ? 'Required' : 'Leave blank to keep unchanged'">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="jobTitle" class="form-label">Job Title</label>
+                        <input type="text" class="form-control" th:field="*{jobTitle}" id="jobTitle">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="council" class="form-label">Council</label>
+                        <select class="form-select" th:field="*{council.id}" id="council" required>
+                            <option value="">-- Select a Council --</option>
+                            <option th:each="c : ${allCouncils}" th:value="${c.id}" th:text="${c.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Roles</label>
+                        <div class="border rounded p-2">
+                            <div class="form-check" th:each="role : ${allRoles}">
+                                <input class="form-check-input" type="checkbox" name="roles" th:value="${role.id}" 
+                                       th:checked="${staffAccount.role.contains(role)}" 
+                                       id="role__${role.id}">
+                                <label class="form-check-label" th:for="'role__' + ${role.id}" th:text="${role.name}"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" th:field="*{isActive}" id="active">
+                        <label class="form-check-label" for="active">
+                            Active
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Staff Account</button>
+                    <a th:href="@{/staff/staff-accounts}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

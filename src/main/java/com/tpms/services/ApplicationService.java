@@ -90,5 +90,9 @@ public class ApplicationService {
 	    return dto;
 	}
 	
+	public Application findApplicationEntityById(Long id) {
+	    return applicationRepository.findById(id)
+	            .orElseThrow(() -> new ResourceNotFoundException("Application not found with ID: " + id));
+	}
 	
 }

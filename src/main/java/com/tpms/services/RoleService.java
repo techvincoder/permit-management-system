@@ -53,4 +53,8 @@ public class RoleService {
 		
 		this.roleRepository.deleteById(id);
 	}
+
+	public Role findRoleEntityById(Long roleId) {
+		return roleRepository.findById(roleId).orElseThrow(()->new ResourceNotFoundException("There is no Role with Id: " + roleId));
+	}
 }

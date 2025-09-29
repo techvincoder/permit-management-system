@@ -6,6 +6,15 @@ public class CustomerDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private boolean active;
+    
+    
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	public Long getId() {
 		return id;
 	}

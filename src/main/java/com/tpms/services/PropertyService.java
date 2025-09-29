@@ -76,4 +76,11 @@ public class PropertyService {
 		
 		return propertyDto;
 	}
+	
+	public Property findPropertyEntityById(Long id) {
+        return propertyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found with ID: " + id));
+    }
+	
+	
 }

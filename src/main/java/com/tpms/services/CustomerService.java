@@ -75,6 +75,11 @@
 			customerDto.setLastName(customer.getLastName());
 			customerDto.setEmail(customer.getEmail());
 			customerDto.setPhoneNumber(customer.getPhoneNumber());
+			customerDto.setActive(customer.getIsActive() != null ? customer.getIsActive() : false);
 			return customerDto;
+		}
+
+		public Customer findCustomerEntityById(Long id) { 
+		    return customerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Ye to nahi hai beta")); 
 		}
 	}
