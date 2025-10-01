@@ -51,6 +51,18 @@ public class Property {
 	@OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
 	//@JsonManagedReference
 	private Set<Application> application = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id")   // foreign key in property table
+	private Customer customer;
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
 	public Long getId() {
 		return id;

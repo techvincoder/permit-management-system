@@ -3,26 +3,26 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{public-base.html}">
 <head>
-    <title>Staff Login</title>
+    <title>Login</title>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <div class="col-md-12"> <!-- Changed width to be more flexible -->
+    <div class="col-md-12">
         <div class="card shadow-sm" style="width: 25rem;">
             <div class="card-body p-5">
-                <h2 class="card-title text-center mb-4">Staff Portal Login</h2>
+                <h2 class="card-title text-center mb-4">Login to Your Account</h2>
 
-                <!-- This block will only appear if the login fails -->
                 <div th:if="${param.error}" class="alert alert-danger" role="alert">
                     Invalid email or password.
                 </div>
-                <!-- This block will only appear after a successful logout -->
                 <div th:if="${param.logout}" class="alert alert-success" role="alert">
                     You have been logged out successfully.
                 </div>
+                <div th:if="${param.registration_success}" class="alert alert-success" role="alert">
+                    Registration successful! Please log in.
+                </div>
 
-                <!-- This form sends the user's credentials to Spring Security -->
                 <form th:action="@{/login}" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Email address</label>
@@ -36,6 +36,11 @@
                         <button type="submit" class="btn btn-primary">Sign in</button>
                     </div>
                 </form>
+                
+                <!-- NEW "REGISTER" LINK ADDED HERE -->
+                <div class="text-center mt-3">
+                    <small>New user? <a th:href="@{/register}">Register here</a></small>
+                </div>
             </div>
         </div>
     </div>

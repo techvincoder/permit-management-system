@@ -82,5 +82,16 @@ public class PropertyService {
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with ID: " + id));
     }
 	
+	public List<PropertyDto> getAllPropertyDtosByCustomerEmail1(String email) {
+	    List<Property> properties = propertyRepository.findByCustomerEmail(email);
+	    List<PropertyDto> dtos = new ArrayList<>();
+	    for (Property property : properties) {
+	        dtos.add(convertToDto(property)); // Assuming you have a private convertToDto helper
+	    }
+	    return dtos;
+	}
+	
+	
+
 	
 }

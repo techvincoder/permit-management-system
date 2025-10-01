@@ -82,4 +82,17 @@
 		public Customer findCustomerEntityById(Long id) { 
 		    return customerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Ye to nahi hai beta")); 
 		}
+
+		public Customer findCustomerEntityByEmail(String customerEmail) {
+			return customerRepository.findByEmail(customerEmail)
+					.orElseThrow(()-> new ResourceNotFoundException(customerEmail));
+		}
+		
+		public void updateCustomer(Customer customerDetails) {
+		    Customer existingCustomer = findCustomerEntityById(customerDetails.getId());
+		    existingCustomer.setFirstName(customerDetails.getFirstName());
+		    existingCustomer.setLastName(customerDetails.getLastName());
+		    existingCustomer.setPhoneNumber(customerDetails.getPhoneNumber());
+		    customerRepository.save(existingCustomer);
+		}
 	}

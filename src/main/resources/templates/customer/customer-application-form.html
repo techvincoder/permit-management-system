@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{customer-base.html}">
+<head>
+    <title>Apply for New Permit</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">New Permit Application</h2>
+
+                    <form th:action="@{/my-applications/save}" th:object="${application}" method="post">
+                        <div class="mb-3">
+                            <label for="permitType" class="form-label">Permit Type</label>
+                            <select class="form-select" th:field="*{permitType}" id="permitType" required>
+                                <option value="">-- Select a Permit Type --</option>
+                                <option th:each="pt : ${allPermitTypes}"
+                                        th:value="${pt.id}"
+                                        th:text="${pt.name}"></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="property" class="form-label">Property</label>
+                            <select class="form-select" th:field="*{property}" id="property" required>
+                                <option value="">-- Select a Property --</option>
+                                <option th:each="p : ${customerProperties}"
+                                        th:value="${p.id}"
+                                        th:text="${p.fullAddress}"></option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="details" class="form-label">Application Details</label>
+                            <textarea class="form-control" th:field="*{details}" id="details" rows="4" placeholder="Please provide a brief description of the work you are planning."></textarea>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

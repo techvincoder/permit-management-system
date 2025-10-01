@@ -14,4 +14,6 @@ public interface StaffAccountsRepository extends JpaRepository<StaffAccounts, Lo
 	 
 	 @Query("select s from StaffAccounts s where s.email = :email")
 	 public StaffAccounts getStaffByUsername(@Param("email") String email);
+
+	 
 }

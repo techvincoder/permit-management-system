@@ -50,6 +50,7 @@ public class StaffAccountController {
 	@PutMapping("/{id}")
 	public ResponseEntity<StaffAccountsDto> updateStaffAccounts(@PathVariable Long id, @RequestBody StaffAccounts staffAccount){
 		StaffAccountsDto updatedStaffAccount = this.staffAccountsService.updateStaffAccountById(id, staffAccount);
+		// in StaffAccountsServce i have changed this method to updateStaffAccount 
 		return ResponseEntity.ok(updatedStaffAccount);
 	}
 	

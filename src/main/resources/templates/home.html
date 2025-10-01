@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{public-base.html}">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">Permit Management System</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">The simplest way to manage and apply for your council permits online. Get started today by creating an account or logging in.</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a th:href="@{/register}" 
+               class="btn btn-primary btn-lg px-4 shadow-sm rounded-pill">
+                🚀 Register Now
+            </a>
+            <a th:href="@{/login}" 
+               class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                🔑 Login
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

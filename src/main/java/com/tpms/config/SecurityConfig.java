@@ -1,5 +1,6 @@
 package com.tpms.config;
 
+import com.tpms.security.CustomAuthenticationSuccessHandler;
 import com.tpms.security.JwtAuthFilter;
 import com.tpms.services.security.UnifiedUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -24,10 +25,12 @@ public class SecurityConfig {
 
     private final UnifiedUserDetailsService userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(UnifiedUserDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(UnifiedUserDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter, CustomAuthenticationSuccessHandler successHandler) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthFilter = jwtAuthFilter;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -48,9 +51,12 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Security config for the STATELESS REST API.
+     * This runs first for any URL starting with /api/
+     */
     @Bean
     @Order(1)
-    // CORRECTED: We inject the AuthenticationProvider as a parameter
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         http
                 .securityMatcher("/api/**")
@@ -60,27 +66,31 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .authenticationProvider(authenticationProvider) // Use the injected provider
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    /**
+     * Security config for the STATEFUL Web UI.
+     * This runs for any URL that was not matched by the API config.
+     */
     @Bean
     @Order(2)
-    // CORRECTED: We inject the AuthenticationProvider as a parameter here too
     public SecurityFilterChain webSecurityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         http
-                .authenticationProvider(authenticationProvider) // Use the injected provider
+                .authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/staff/**").hasAnyRole("ADMIN", "REVIEWER")
+                        .requestMatchers("/my-applications/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/staff/dashboard", true)
+                        .successHandler(successHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout

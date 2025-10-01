@@ -55,18 +55,43 @@ public class StaffAccountsService {
 		return convertToDto(staffAccounts);
 	}
 	
-	//Update by ID
+	//Update by ID ( api testing ke liye use karenge)
 	public StaffAccountsDto updateStaffAccountById(long id, StaffAccounts staffAccounts) {
 		StaffAccounts account = this.staffAccountsRepository.findById(id)
 				.orElseThrow(()-> new ResourceNotFoundException("There is no User with this details: "+id));
 		
 		//Getters and Setters
-		account.setEmail(staffAccounts.getEmail());
+		
+		account.setFirstName(staffAccounts.getFirstName());
+	    account.setLastName(staffAccounts.getLastName());
+	    account.setJobTitle(staffAccounts.getJobTitle());
+
 		//add more getters and setters
 		
 		StaffAccounts updatedStaffAccount = this.staffAccountsRepository.save(account);
 		return convertToDto(updatedStaffAccount);
 	}
+	
+	//DB changes ke liye use karenge
+	
+	public StaffAccountsDto updateStaffAccountByEmail(StaffAccounts staffAccounts) {
+		String email = staffAccounts.getEmail();
+		StaffAccounts account = this.staffAccountsRepository.findByEmail(email)
+				.orElseThrow(()-> new ResourceNotFoundException("There is no User with this details: "+email));
+		
+		//Getters and Setters
+		
+		account.setFirstName(staffAccounts.getFirstName());
+	    account.setLastName(staffAccounts.getLastName());
+	    account.setJobTitle(staffAccounts.getJobTitle());
+
+		//add more getters and setters
+		
+		StaffAccounts updatedStaffAccount = this.staffAccountsRepository.save(account);
+		return convertToDto(updatedStaffAccount);
+	}
+	
+	
 	
 	//Delete by ID
 	public void deleteStaffAccountById(long id) {
@@ -113,6 +138,21 @@ public class StaffAccountsService {
 	            .orElseThrow(() -> new ResourceNotFoundException("Staff Account not found with ID: " + id));
 	}
 	
+	public StaffAccounts findStaffAccountEntityByEmail(String email) {
+	    return staffAccountsRepository.findByEmail(email)
+	            .orElseThrow(() -> new ResourceNotFoundException("Staff Account not found with email: " + email));
+	}
+	
+	public void updateStaffAccount(StaffAccounts staffAccountDetails) {
+	    // Find the existing user from the database
+	    StaffAccounts existingStaff = findStaffAccountEntityById(staffAccountDetails.getId());
+	    // Update only the fields that can be changed
+	    existingStaff.setFirstName(staffAccountDetails.getFirstName());
+	    existingStaff.setLastName(staffAccountDetails.getLastName());
+	    existingStaff.setJobTitle(staffAccountDetails.getJobTitle());
+	    // Note: We don't update email, password, or roles here
+	    staffAccountsRepository.save(existingStaff);
+	}
 	
 	
 	

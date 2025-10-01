@@ -159,6 +159,26 @@ public class Customer {
 	}
 	
 	
+	 @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	    private Set<Property> properties = new HashSet<>();
+
+	 public Set<Application> getApplications() {
+		 return applications;
+	 }
+
+	 public void setApplications(Set<Application> applications) {
+		 this.applications = applications;
+	 }
+
+	 public Set<Property> getProperties() {
+		 return properties;
+	 }
+
+	 public void setProperties(Set<Property> properties) {
+		 this.properties = properties;
+	 }
+	
+	
 	
 	
 

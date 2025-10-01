@@ -95,4 +95,17 @@ public class ApplicationService {
 	            .orElseThrow(() -> new ResourceNotFoundException("Application not found with ID: " + id));
 	}
 	
+	public List<ApplicationDto> findAllApplicationsByCustomerEmail(String email) {
+	    List<Application> applications = applicationRepository.findByCustomerEmail(email);
+	    
+	    // We can reuse our existing DTO conversion logic
+	    List<ApplicationDto> dtos = new ArrayList<>();
+	    for (Application application : applications) {
+	        dtos.add(convertToDto(application)); // Assuming you have a private convertToDto method
+	    }
+	    return dtos;
+	}
+	
+	
+	
 }
