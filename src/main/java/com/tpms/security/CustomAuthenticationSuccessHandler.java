@@ -23,14 +23,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         for (GrantedAuthority authority : authorities) {
             String role = authority.getAuthority();
             
-            // If the user has an ADMIN or REVIEWER role, send them to the staff dashboard.
+            // If the user has an ADMIN or REVIEWER role, send them to the staff dashboard
             if (role.equals("ROLE_ADMIN") || role.equals("ROLE_REVIEWER")) {
                 response.sendRedirect("/staff/dashboard");
                 return; // Stop processing
             }
         }
 
-        // If the user is not a staff member, they must be a customer. Send them to their dashboard.
+        // If the user is not a staff member, they must be a customer. Send them to their dashboard
         response.sendRedirect("/my-applications");
     }
 }

@@ -45,7 +45,7 @@ public class CouncilWebController{
 	    @PostMapping("/save")
 	    public String saveCouncil(@ModelAttribute Council council) {
 	        // @ModelAttribute takes the submitted form data and builds a Council object
-	        councilService.addCouncil(council); // Use your existing service method to save
+	        councilService.addCouncil(council); // Using my existing service
 	        return "redirect:/staff/councils"; // Redirect back to the list page on success
 	    }
 	    

@@ -13,9 +13,7 @@ import java.util.Collections;
  */
 public class CustomerUserDetails implements UserDetails {
 
-    /**
-	 * 
-	 */
+    
 	private static final long serialVersionUID = 8981078897268063493L;
 	private final Customer customer;
 

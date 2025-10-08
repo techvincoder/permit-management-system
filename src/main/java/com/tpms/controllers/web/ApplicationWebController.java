@@ -74,7 +74,7 @@ public class ApplicationWebController {
     @GetMapping("/{id}/delete")
     public String deleteApplication(@PathVariable Long id) {
         applicationService.deleteApplicationById(id);
-        // After deleting, redirect back to the dashboard to see the updated list
+        // After deleting, redirecting back to the dashboard to see the updated list
         return "redirect:/staff/dashboard";
     }
 }

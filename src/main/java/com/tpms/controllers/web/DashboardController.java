@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/staff") // Base URL for all methods in this controller
+@RequestMapping("/staff") 
 public class DashboardController {
 
     private final ApplicationService applicationService;
@@ -21,14 +21,13 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
-        // 1. Fetch the data from the service layer
+       
         List<ApplicationDto> applicationList = applicationService.getAllApplicationDtos();
 
-        // 2. Add the data to the model with the name "applications"
-        // This name MUST match the variable in the th:each loop in dashboard.html
+        
         model.addAttribute("applications", applicationList);
 
-        // 3. Return the path to the HTML template
+        // Return the path to the HTML template
         return "staff/dashboard";
     }
 }
